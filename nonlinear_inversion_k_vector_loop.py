@@ -158,12 +158,18 @@ for i in xrange(len(X_e)):
 
     print 'Raiz:%d ---> %f\n' %(i,X_e[i])
 
-plt.plot(x,y1,'r')
-plt.plot(x,y2,'b')
-plt.plot(X_s,np.sinc(X_s),'go')
-#plt.legend('sin(x)','sinc(x)','X_e')
-plt.xlabel('$t$')
-plt.ylabel('$sinc(t)$ $sin(t)$')
-plt.title('Implementacion del algoritmo k-vector(Python)')
-plt.show()
 
+#creo un objeto figure
+figura = plt.figure()
+#creo un axe (donde se dibuja)
+ax = figura.add_subplot(111)
+
+ax.plot(x,y1,label='$sin(t)$')
+ax.plot(x,y2,label='$sinc(t)$')
+ax.plot(X_s,np.sin(X_s),'r*',label='Intersecciones')
+ax.set_ylabel('Funciones')
+ax.set_xlabel('$t$')
+ax.set_title('Interseccion de dos Funciones no lineales(k-vector)')
+ax.legend()
+plt.grid()
+plt.show()
