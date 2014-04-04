@@ -5,16 +5,15 @@
 #*************************************************************************
 
 import numpy as np
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from time import time
-
-
 
 #*************************************************************************
 #constantes y setup
 #*************************************************************************
-t_start=time()
-n=10000 #numero de elementos de la base de datos
+
+t_start = time()
+n = 10000  # numero de elementos de la base de datos
 #prealocamos los vectores
 y = np.zeros(n)
 s = np.zeros_like(y)
@@ -25,7 +24,7 @@ vec_aux = np.zeros_like(y)
 
 #epsilon es el numero de precision de la maquina
 epsilon = np.finfo(np.float).eps
-delta_epsilon = (n-1)*epsilon
+delta_epsilon = (n - 1) * epsilon
 
 #*************************************************************************
 #algoritmo
@@ -42,28 +41,28 @@ i = np.argsort(y)
 
 s = y[i]
 
-y_min = s[0] #primer elemento
-y_max = s[-1] #ultimo elemento
+y_min = s[0]  # primer elemento
+y_max = s[-1]  # ultimo elemento
 
 #generamos la recta z(x)=mx+q
 
-m = (y_max - y_min + 2 * delta_epsilon )/(n-1)
+m = (y_max - y_min + 2 * delta_epsilon) / (n - 1)
 q = y_min - m - delta_epsilon
 #funcion anonima para la recta
-z = lambda x: (m*x+q)
+z = lambda x: (m * x + q)
 i = np.arange(n)
 z_discreto = z(i)
 
 #generamos el k-vector
 
-k[0]=0
-k[-1]=n
+k[0] = 0
+k[-1] = n
 
 #todo vectorizar esto:
 
-for aux in xrange(1,n-1):
-    vec_aux=s<z_discreto[aux]
-    k[aux]=np.sum(vec_aux)
+for aux in xrange(1, n - 1):
+    vec_aux = s < z_discreto[aux]
+    k[aux] = np.sum(vec_aux)
 
 
 #rango de busqueda
@@ -71,13 +70,13 @@ for aux in xrange(1,n-1):
 y_a = .3
 y_b = .7
 
-j_b = np.floor((y_a-q)/m)
-j_t = np.ceil((y_b-q)/m)
+j_b = np.floor((y_a - q) / m)
+j_t = np.ceil((y_b - q) / m)
 
-k_start = k[j_b]+1
+k_start = k[j_b] + 1
 k_end = k[j_t]
 
-k_busqueda = np.arange(int(k_start),int(k_end))
+k_busqueda = np.arange(int(k_start), int(k_end))
 
 
 y_busqueda = s[k_busqueda]
@@ -86,16 +85,12 @@ y_busqueda = s[k_busqueda]
 #cantidad de elementos que estan fuera del rango e0 =1 entonces esta en algunos
 #de los dos extremos
 
-if y_busqueda[0]<y_a:
-    y_busqueda=np.delete(y_busqueda,0)
+if y_busqueda[0] < y_a:
+    y_busqueda = np.delete(y_busqueda, 0)
 
-if y_busqueda[-1]>y_b:
-    y_busqueda=np.delete(y_busqueda,len(y_busqueda)-1)
+if y_busqueda[-1] > y_b:
+    y_busqueda = np.delete(y_busqueda, len(y_busqueda) - 1)
 
-t_final=time()
+t_final = time()
 
-print 'tiempo de procesamiento: %f' %(t_final-t_start)
-
-
-
-
+print 'tiempo de procesamiento: %f' % (t_final - t_start)
